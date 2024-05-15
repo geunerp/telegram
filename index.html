@@ -31,8 +31,9 @@
     
     
 
-    <input type="text" placeholder="Input text in regular input..." id="regular_field"/>
-
+    <input type="text" placeholder="Input your name." id="regular_field"/>
+    
+    <button id="hola_btn" onclick="DemoApp.sendMessageHola('');">Hola</button>
 
     
     <button id="main_btn" onclick="DemoApp.sendMessage('');">Send «Hello, World!»</button>
@@ -127,6 +128,52 @@
 <div class="viewport-border"></div>
 <div class="viewport-stable_border"></div>
 
+
+<script>
+    // Define el objeto DemoApp si no está definido
+    var DemoApp = DemoApp || {};
+
+    // Implementa el método sendMessageHola
+    DemoApp.sendMessageHola = function() {
+        // Aquí debes proporcionar el token del bot y el ID del chat al que quieres enviar el mensaje
+        const botToken = '5951063074:AAHsHlmoBGRd0PEK1p4MFKhNszpxIvX2Z5E';
+        const chatId = '1823677259';
+        const message = 'Hola';
+
+        // URL de la API de Telegram para enviar mensajes
+        const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
+
+        // Datos que se enviarán en la solicitud POST
+        const data = {
+            chat_id: chatId,
+            text: message
+        };
+
+        // Realiza la solicitud POST a la API de Telegram
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.ok) {
+                console.log('Mensaje enviado con éxito:', data);
+            } else {
+                console.error('Error al enviar el mensaje:', data);
+            }
+        })
+        .catch(error => {
+            console.error('Error en la solicitud:', error);
+        });
+    };
+</script>
+
+
+
+
 <script type="application/javascript">
 
     /*
@@ -207,6 +254,10 @@
                 }
             });
         },
+
+
+
+
         changeMenuButton(close) {
             document.querySelectorAll('button').forEach((btn) => btn.disabled = true);
             const btnStatus       = document.querySelector('#btn_status');
@@ -301,6 +352,9 @@
                 }
             });
         },
+        
+        
+
         requestContact() {
             Telegram.WebApp.requestContact(function (result) {
                 if (result) {
@@ -310,6 +364,11 @@
                 }
             });
         },
+
+
+
+
+
         isVersionAtLeast(version) {
             return Telegram.WebApp.isVersionAtLeast(version);
         },
@@ -539,6 +598,11 @@
     document.getElementById('theme_data').innerHTML = JSON.stringify(Telegram.WebApp.themeParams, null, 2);
     document.getElementById('regular_link').setAttribute('href', document.getElementById('regular_link').getAttribute('href') + location.hash);
     document.getElementById('text_field').focus();
+   
+
+
+
+
     document.getElementById('regular_field').addEventListener('input', function (e) {
         const val = this.value.toLowerCase();
         if (val.indexOf('progress') >= 0) {
@@ -547,6 +611,11 @@
             Telegram.WebApp.MainButton.hideProgress();
         }
     });
+
+
+
+
+
 
     document.getElementById('ver').innerHTML      = Telegram.WebApp.version;
     document.getElementById('platform').innerHTML = Telegram.WebApp.platform;
